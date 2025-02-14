@@ -6,9 +6,9 @@
     <title>My Love for You</title>
     <style>
         body {
-            background-color: #ffdde1;
+            background: linear-gradient(to right, #ff758c, #ff7eb3);
             text-align: center;
-            font-family: Arial, sans-serif;
+            font-family: 'Courier New', monospace;
             margin: 0;
             padding: 0;
             overflow: hidden;
@@ -22,44 +22,47 @@
         }
         h1 {
             font-size: 3em;
-            color: #d63384;
+            color: #fff;
             animation: fadeIn 2s ease-in-out;
         }
         p {
             font-size: 1.5em;
-            color: #6a0572;
+            color: #fff;
             animation: fadeIn 4s ease-in-out;
         }
         .heart {
+            position: relative;
             width: 100px;
             height: 100px;
-            background-color: red;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(-45deg);
             animation: heartbeat 1.5s infinite;
         }
-        .heart:before,
-        .heart:after {
+        .heart::before, .heart::after {
             content: '';
             width: 100px;
             height: 100px;
             background-color: red;
-            border-radius: 50%;
             position: absolute;
-        }
-        .heart:before {
-            top: -50px;
+            top: 0;
             left: 0;
+            border-radius: 50%;
         }
-        .heart:after {
+        .heart::after {
             left: 50px;
             top: 0;
         }
+        .heart-shape {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            transform: rotate(-45deg);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+        }
         @keyframes heartbeat {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); }
-            50% { transform: translate(-50%, -50%) scale(1.2); }
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); }
         }
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -75,20 +78,48 @@
             border-radius: 10px;
             cursor: pointer;
             animation: fadeIn 5s ease-in-out;
+            transition: transform 0.3s ease;
+        }
+        .button:hover {
+            transform: scale(1.1);
         }
         .hidden-message {
             display: none;
             font-size: 2em;
-            color: #d63384;
+            color: #fff;
             margin-top: 20px;
+            animation: fadeIn 2s ease-in-out;
+        }
+        .falling-hearts {
+            position: absolute;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .falling-hearts span {
+            position: absolute;
+            top: -10px;
+            width: 15px;
+            height: 15px;
+            background: red;
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: fall 5s linear infinite;
+        }
+        @keyframes fall {
+            from { transform: translateY(0); opacity: 1; }
+            to { transform: translateY(100vh); opacity: 0; }
         }
     </style>
 </head>
 <body>
+    <div class="falling-hearts"></div>
     <div class="container">
         <h1>To My Love ❤️</h1>
         <p>You are my heart, my soul, my everything.</p>
-        <div class="heart"></div>
+        <div class="heart">
+            <div class="heart-shape"></div>
+        </div>
         <button class="button" onclick="showMessage()">Click for a Surprise</button>
         <p class="hidden-message" id="message">Will You Marry Me? 💍</p>
     </div>
@@ -96,6 +127,16 @@
         function showMessage() {
             document.getElementById('message').style.display = 'block';
         }
+        function createFallingHearts() {
+            const container = document.querySelector('.falling-hearts');
+            for (let i = 0; i < 50; i++) {
+                let heart = document.createElement('span');
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+                container.appendChild(heart);
+            }
+        }
+        createFallingHearts();
     </script>
 </body>
 </html>
